@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="prueba.css">
+    <title>GRIT</title>
+</head>
+<style>
+    
+</style>
+<body>
+    <header>
+        <h1>GRIT</h1>
+        <p>Control De Actividades Diarias</p>
+    </header>
+    <div class="container">
+        <label for="">Nuevo Habito:</label>
+        <input type="text" id="inputHabito" >
+        <button class="btnH" onclick="agregarHabito()">Agregar</button>
+        <p>HABITOS</p>
+        <div class="habitos">
+        </div>
+
+    </div>
+
+    <script>
+        let habitos =JSON.parse(localStorage.getItem("habitos")) || [];
+
+        function guardarHabitos(){
+            localStorage.setItem("habitos", JSON.stringify(habitos));
+        }
+
+        function renderHabitos(){
+            const contenedor = document.querySelector(".habitos");
+            contenedor.innerHTML = "";
+
+            habitos.forEach((habito, index)=>{
+                const p = document.createElement("p");
+
+                p.innerHTML = `
+                <input type= "checkbox" ${habito.completado ? "checked" : ""}
+                    onchange="toggleHabito(${index})">
+                ${habito.texto}
+                <div class="botones">
+                <button class="btnE" onclick="editarHabito(${index})">✏</button>
+                <button class="btnE" onclick="eliminarHabito(${index})">🗑</button>
+                </div>
+                `;
+                contenedor.appendChild(p);
+            });
+        }
+
+        //Agregar un habito
+        function agregarHabito(){
+            const input = document.querySelector("input[type= 'text']");
+            if(!input.value.trim()) return;
+
+            habitos.push({texto: input.value, completado: false});
+
+            input.value = "";
+            guardarHabitos();
+            renderHabitos();
+        }
+
+        //marcar o desmarcar un habito
+
+        function toggleHabito(index){
+            habitos[index].completado = !habitos[index].completado;
+            guardarHabitos();
+            renderHabitos();
+        }
+
+        //Eliminar Habito
+        function eliminarHabito(index){
+            habitos.splice(index, 1);
+            guardarHabitos();
+            renderHabitos();
+        }
+
+        //editar habito
+        function editarHabito(index){
+            const nuevo = prompt("Editar Habito:", habitos[index].texto);
+            if(nuevo){
+                habitos[index].texto = nuevo;
+                guardarHabitos();
+                renderHabitos();
+            }
+        }
+
+        
+        renderHabitos();
+
+    </script>
+    
+</body>
+</html>
