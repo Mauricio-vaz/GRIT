@@ -51,10 +51,11 @@ header{
 
 .botones{
     display: inline;
-    float: center;
+    float: right;
     border-radius: 8px;
     
 }
+
 
 
 
