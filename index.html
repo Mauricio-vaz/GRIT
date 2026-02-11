@@ -51,6 +51,15 @@
             });
         }
 
+        //Contar un habito
+
+        function cuentaHabito(){
+            const p = document.getElementById("Terminado");
+
+            const terminados = habitos.filter(h => h.completado).length;
+            const total = habitos.length;
+            p.textContent = `HABITOS TERMINADOS: ${terminados}/${total}`;
+            
         //Agregar un habito
         function agregarHabito(){
             const input = document.querySelector("input[type= 'text']");
@@ -61,6 +70,7 @@
             input.value = "";
             guardarHabitos();
             renderHabitos();
+            cuentaHabitos();
         }
 
         //marcar o desmarcar un habito
@@ -69,6 +79,7 @@
             habitos[index].completado = !habitos[index].completado;
             guardarHabitos();
             renderHabitos();
+            cunetaHabito();
         }
 
         //Eliminar Habito
@@ -76,6 +87,7 @@
             habitos.splice(index, 1);
             guardarHabitos();
             renderHabitos();
+            cuentaHabito();
         }
 
         //editar habito
@@ -95,3 +107,4 @@
     
 </body>
 </html>
+
