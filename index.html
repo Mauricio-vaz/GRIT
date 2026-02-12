@@ -53,7 +53,7 @@
 
         //Contar un habito
 
-        function cuentaHabito(){
+        function cuentaHabitos(){
             const p = document.getElementById("Terminado");
 
             const terminados = habitos.filter(h => h.completado).length;
@@ -79,7 +79,7 @@
             habitos[index].completado = !habitos[index].completado;
             guardarHabitos();
             renderHabitos();
-            cunetaHabito();
+            cuentaHabitos();
         }
 
         //Eliminar Habito
@@ -87,7 +87,7 @@
             habitos.splice(index, 1);
             guardarHabitos();
             renderHabitos();
-            cuentaHabito();
+            cuentaHabitos();
         }
 
         //editar habito
@@ -107,4 +107,5 @@
     
 </body>
 </html>
+
 
