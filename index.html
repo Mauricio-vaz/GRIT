@@ -58,6 +58,9 @@
             const terminados = habitos.filter(h => h.completado).length;
             const total = habitos.length;
             p.textContent = `HABITOS TERMINADOS: ${terminados}/${total}`;
+            if(terminados == total){
+                alert("FELICIDADES HAS TERMNADO TUS ACTIVIDADES DIARIAS!!");
+            }
         }
             
         //Agregar un habito
@@ -103,6 +106,7 @@
             </script> 
 </body>
 </html>
+
 
 
 
