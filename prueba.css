@@ -1,17 +1,20 @@
 *{
-    margin: auto;
-    padding: auto;
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
+}
+body{
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 15px;
 }
 
 header{
     width: 98%;
     border: 2px solid rgb(124, 115, 115);
-    size: 1.5rem;
-    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 1.5rem;
     text-align: center;
     border-radius: 5px;
-    background-color: #0e4a61;
+    background-color: #428866;
     color: #131b25;
     padding: 10px 0px;
 }
@@ -22,38 +25,72 @@ header{
     padding: 10px;
     border: 2px solid rgb(124, 115, 115);
     border-radius: 10px;
-    background-color: #0986ab;
+    background-color: #428866;
 }
+
 .container input{
     margin: 10px;
     padding: 5px;
     border-radius: 5px;
-    background: #ace2ee;
+    background: rgb(255, 255, 255, 0.3);
     border: transparent;
-
 }
+
 .container .btnH{
     margin: 6px;
-    padding: 4px;
-    border-radius: 10px;
+    padding: 6px;
+    width: 80px;
+    border-radius: 8px;
     border: transparent;
     color: #131b25;
+    background: rgb(127, 170, 110);
 }
-
-.habitos{
-    justify-content: space-around;
-    align-items: center;
-}
-
-.habitos p{
-    margin: 10px;
-}   
 
 .botones{
-    display: inline;
+    display: flex;
+    align-items: center;
+    gap: 8px;
     float: right;
+}
+input[type="checkbox"]{
+    vertical-align: middle;
+    appearance: none;
+    width: 35px;
+    height: 22px;
+    background: #ccc;
+    border-radius: 20px;
+    position: relative;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+input[type="checkbox"]::before {
+    content: "";
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    background: white;
+    border-radius: 50%;
+    top: 2px;
+    left: 2px;
+    transition: 0.3s;
+}
+
+input[type="checkbox"]:checked {
+    background: #3bb355;
+}
+
+input[type="checkbox"]:checked::before {
+    transform: translateX(13px);
+}
+
+.btnE{
+    margin: 5px;
+    width: 30px;
+    height: auto;
     border-radius: 8px;
-    
+    border: none;
+    background: #61a886;
 }
 
 
