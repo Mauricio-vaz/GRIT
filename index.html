@@ -6,19 +6,18 @@
     <link rel="stylesheet" href="prueba.css">
     <title>GRIT</title>
 </head>
-<style>
-    
-</style>
+
 <body>
     <header>
         <h1>GRIT</h1>
-        <p>Control De Actividades Diarias</p>
+        <p>Control De Actividades Diarias.</p>
     </header>
     <div class="container">
         <label for="">Nuevo Habito:</label>
         <input type="text" id="inputHabito" >
         <button class="btnH" onclick="agregarHabito()">Agregar</button>
-        <p id="terminado">HABITOS TERMINADOS</p>
+        <button class="btnH" onclick="desmarcarHabitos()">Desmarcar</button>
+        <p id="terminado">HABITOS TERMINADOS:</p>
         <div class="habitos">
         </div>
 
@@ -46,23 +45,21 @@
                 <button class="btnE" onclick="editarHabito(${index})">✏</button>
                 <button class="btnE" onclick="eliminarHabito(${index})">🗑</button>
                 </div>
+                <br>
                 `;
                 contenedor.appendChild(p);
             });
         }
 
-        //Contar un habito
+        //<p>Habitos completados: ${habitos.filter(h => h.completado).length} / ${habitos.length}</p>
         function cuentaHabitos(){
             const p = document.getElementById("terminado");
-
+            p.textContent = "HABITOS TERMINADOS: " + obtenerCuenta();
             const terminados = habitos.filter(h => h.completado).length;
-            const total = habitos.length;
-            p.textContent = `HABITOS TERMINADOS: ${terminados}/${total}`;
-            if(terminados == total){
-                alert("FELICIDADES HAS TERMNADO TUS ACTIVIDADES DIARIAS!!")
-            }
-        }
+            p.textContent += ` ${terminados} / ${habitos.length}`;
             
+        }
+
         //Agregar un habito
         function agregarHabito(){
             const input = document.querySelector("input[type= 'text']");
@@ -73,7 +70,6 @@
             input.value = "";
             guardarHabitos();
             renderHabitos();
-            cuentaHabitos();
         }
 
         //marcar o desmarcar un habito
@@ -82,7 +78,15 @@
             habitos[index].completado = !habitos[index].completado;
             guardarHabitos();
             renderHabitos();
-            cuentaHabitos();
+        }
+
+        //Desmarcar todos los habitos
+        function desmarcarHabitos(){
+            habitos.forEach(habito =>{
+                habito.completado = false;
+            });
+            guardarHabitos();
+            renderHabitos();
         }
 
         //Eliminar Habito
@@ -90,7 +94,6 @@
             habitos.splice(index, 1);
             guardarHabitos();
             renderHabitos();
-            cuentaHabitos();
         }
 
         //editar habito
@@ -102,15 +105,12 @@
                 renderHabitos();
             }
         }
+
+        //agrega un conteo de los habitos que se vayan completando y los que hagan falta es decir, 9/19 habitos terminados
+        
         renderHabitos();
-            </script> 
+
+    </script>
+    
 </body>
 </html>
-
-
-
-
-
-
-
-
