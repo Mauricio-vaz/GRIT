@@ -50,6 +50,19 @@
                 contenedor.appendChild(p);
             });
         }
+         function cuentaHabitos(){
+            const p = document.getElementById("terminado");
+            
+            const terminados = habitos.filter(h => h.completado).length;
+            const total = habitos.length;
+
+            p.textContent = `HABITOS TERMINADOS: ${terminados} / ${total}`;
+            
+            if(terminados == total){
+                alert("Terminaste tus actividades🥳🎈🎉")
+            }
+            
+        }
 
         //<p>Habitos completados: ${habitos.filter(h => h.completado).length} / ${habitos.length}</p>
         function cuentaHabitos(){
