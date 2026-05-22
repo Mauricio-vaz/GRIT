@@ -17,7 +17,7 @@
         <input type="text" id="inputHabito" >
         <button class="btnH" onclick="agregarHabito()">Agregar</button>
         <button class="btnH" onclick="desmarcarHabitos()">Desmarcar</button>
-        <p id="terminado">HABITOS TERMINADOS:</p>
+        <p id="terminado">HÁBITOS TERMINADOS: </p>
         <div class="habitos">
         </div>
 
@@ -50,27 +50,17 @@
                 contenedor.appendChild(p);
             });
         }
-         function cuentaHabitos(){
+
+        function cuentaHabitos(){
             const p = document.getElementById("terminado");
-            
             const terminados = habitos.filter(h => h.completado).length;
             const total = habitos.length;
 
-            p.textContent = `HABITOS TERMINADOS: ${terminados} / ${total}`;
+            p.textContent = `HÁBITOS TERMINADOS: ${terminados} / ${total}`;
             
-            if(terminados == total){
-                alert("Terminaste tus actividades🥳🎈🎉")
+            if(terminados === total){
+                alert("Terminaste tus actividades🥳🎈🎉");
             }
-            
-        }
-
-        //<p>Habitos completados: ${habitos.filter(h => h.completado).length} / ${habitos.length}</p>
-        function cuentaHabitos(){
-            const p = document.getElementById("terminado");
-            p.textContent = "HABITOS TERMINADOS: " + obtenerCuenta();
-            const terminados = habitos.filter(h => h.completado).length;
-            p.textContent += ` ${terminados} / ${habitos.length}`;
-            
         }
 
         //Agregar un habito
@@ -83,6 +73,7 @@
             input.value = "";
             guardarHabitos();
             renderHabitos();
+            cuentaHabitos();
         }
 
         //marcar o desmarcar un habito
@@ -91,6 +82,7 @@
             habitos[index].completado = !habitos[index].completado;
             guardarHabitos();
             renderHabitos();
+            cuentaHabitos();
         }
 
         //Desmarcar todos los habitos
@@ -100,6 +92,7 @@
             });
             guardarHabitos();
             renderHabitos();
+            cuentaHabitos();
         }
 
         //Eliminar Habito
@@ -118,9 +111,6 @@
                 renderHabitos();
             }
         }
-
-        //agrega un conteo de los habitos que se vayan completando y los que hagan falta es decir, 9/19 habitos terminados
-        
         renderHabitos();
 
     </script>
