@@ -13,13 +13,12 @@
         <p>Control De Actividades Diarias.</p>
     </header>
     <div class="container">
-        <label for="">Nuevo Habito:</label>
+        <label for="inputHabito">Nuevo Habito:</label>
         <input type="text" id="inputHabito" >
         <button class="btnH" onclick="agregarHabito()">Agregar</button>
         <button class="btnH" onclick="desmarcarHabitos()">Desmarcar</button>
         <p id="terminado">HÁBITOS TERMINADOS: </p>
-        <div class="habitos">
-        </div>
+        <div class="habitos"></div>
 
     </div>
 
@@ -40,7 +39,11 @@
                 p.innerHTML = `
                 <input type= "checkbox" ${habito.completado ? "checked" : ""}
                     onchange="toggleHabito(${index})">
+
+                <spam class="${habito.completado ? "completado" : ""}">
                 ${habito.texto}
+                </spam>  
+
                 <div class="botones">
                 <button class="btnE" onclick="editarHabito(${index})">✏</button>
                 <button class="btnE" onclick="eliminarHabito(${index})">🗑</button>
@@ -56,7 +59,7 @@
             const terminados = habitos.filter(h => h.completado).length;
             const total = habitos.length;
 
-            p.textContent = `HÁBITOS TERMINADOS: ${terminados} / ${total}`;
+            p.textContent = `HÁBITOS TERMINADOS: [${terminados} / ${total}]`;
             
             if(terminados === total){
                 alert("Terminaste tus actividades🥳🎈🎉");
