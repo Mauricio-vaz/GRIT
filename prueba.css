@@ -37,9 +37,11 @@ header{
 }
 
 .container .btnH{
+    font-family: 'Courier New', Courier, monospace;
     margin: 6px;
     padding: 6px;
     width: 80px;
+    margin-bottom: 30px;
     border-radius: 8px;
     border: transparent;
     color: #131b25;
@@ -85,15 +87,26 @@ input[type="checkbox"]:checked::before {
 }
 
 .btnE{
-    margin: 5px;
-    width: 30px;
     height: auto;
     border-radius: 8px;
     border: none;
     background: #61a886;
 }
+.botones .btnE{
+    height: 20px;
+    width: 30px;
+    padding: 2px;
+    justify-content: center;
+    text-align: center;
+    box-shadow: #1d462c 1px 3px 5px -1px;
+}
 
+.habitos{
+    margin-top: 20px;
+}
 
-
-
+.completado{
+    text-decoration: line-through;
+    opacity: 0.5;
+}
 
