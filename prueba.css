@@ -18,6 +18,9 @@ header{
     color: #131b25;
     padding: 10px 0px;
 }
+header p{
+    font-size: 1.0rem;
+}
 
 .container{
     width: 98%;
