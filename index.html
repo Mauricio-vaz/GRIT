@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="prueba.css">
     <title>GRIT</title>
 </head>
-
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 <body>
     <header>
         <h1>GRIT</h1>
@@ -28,6 +28,7 @@
         function guardarHabitos(){
             localStorage.setItem("habitos", JSON.stringify(habitos));
         }
+    
 
         function renderHabitos(){
             const contenedor = document.querySelector(".habitos");
@@ -37,7 +38,7 @@
                 const p = document.createElement("p");
 
                 p.innerHTML = `
-                <input type= "checkbox" ${habito.completado ? "checked" : ""}
+                <input type= "checkbox" id="check${index}" ${habito.completado ? "checked" : "" }
                     onchange="toggleHabito(${index})">
 
                 <spam class="${habito.completado ? "completado" : ""}">
@@ -62,7 +63,12 @@
             p.textContent = `HÁBITOS TERMINADOS: [${terminados} / ${total}]`;
             
             if(terminados === total){
-                alert("Terminaste tus actividades🥳🎈🎉");
+                alert("Terminaste tus hábitos🎉🎈🥳👍");
+                confetti({// Lanzar confetti al completar todos los hábitos
+                    particleCount: 3000,
+                    spread: 110,
+                    origin: {y: 1.1, x: 0.5}
+                });
             }
         }
 
@@ -83,6 +89,14 @@
 
         function toggleHabito(index){
             habitos[index].completado = !habitos[index].completado;
+            
+            if(habitos[index].completado){
+                confetti({
+                    particleCount: 500,
+                    spread: 80,
+                    origin: {y: 1.1}
+                });
+            }
             guardarHabitos();
             renderHabitos();
             cuentaHabitos();
