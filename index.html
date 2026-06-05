@@ -91,6 +91,7 @@
             habitos[index].completado = !habitos[index].completado;
             
             if(habitos[index].completado){
+                navigator.vibrate(50);
                 confetti({
                     particleCount: 500,
                     spread: 80,
