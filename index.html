@@ -20,6 +20,7 @@
         <p id="terminado">HÁBITOS TERMINADOS: </p>
         <div class="habitos"></div>
 
+        <div id="logro" class="logro">terminaste un habito</div>
     </div>
 
     <script>
@@ -28,7 +29,17 @@
         function guardarHabitos(){
             localStorage.setItem("habitos", JSON.stringify(habitos));
         }
-    
+
+        //MOSTRAR LOGRO AL COMPLETAR UN HABITO
+        function mostrarLogro(texto){
+            const logro = document.getElementById("logro");
+
+            logro.textContent = texto;
+            logro.classList.add("mostrar");
+            setTimeout(() => {
+                logro.classList.remove("mostrar");
+            },3000);
+        }
 
         function renderHabitos(){
             const contenedor = document.querySelector(".habitos");
@@ -63,7 +74,8 @@
             p.textContent = `HÁBITOS TERMINADOS: [${terminados} / ${total}]`;
             
             if(terminados === total){
-                alert("Terminaste tus hábitos🎉🎈🥳👍");
+
+                mostrarLogro("Terminaste tus hábitos🎉🎈🥳👍");
                 confetti({// Lanzar confetti al completar todos los hábitos
                     particleCount: 3000,
                     spread: 110,
@@ -78,7 +90,7 @@
             if(!input.value.trim()) return;
 
             habitos.push({texto: input.value, completado: false});
-
+            
             input.value = "";
             guardarHabitos();
             renderHabitos();
@@ -89,7 +101,6 @@
 
         function toggleHabito(index){
             habitos[index].completado = !habitos[index].completado;
-            
             if(habitos[index].completado){
                 confetti({
                     particleCount: 500,
@@ -97,6 +108,7 @@
                     origin: {y: 1.1}
                 });
             }
+            mostrarLogro('Sigue así');
             guardarHabitos();
             renderHabitos();
             cuentaHabitos();
@@ -107,6 +119,8 @@
             habitos.forEach(habito =>{
                 habito.completado = false;
             });
+            mostrarLogro("¡Todos los hábitos han sido desmarcados!");
+            
             guardarHabitos();
             renderHabitos();
             cuentaHabitos();
