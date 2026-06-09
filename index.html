@@ -11,14 +11,16 @@
     <header>
         <h1>GRIT</h1>
         <p>Control De Actividades Diarias.</p>
+        <p id="fecha"></p>
     </header>
     <div class="container">
         <label for="inputHabito">Nuevo Habito:</label>
         <input type="text" id="inputHabito" >
         <button class="btnH" onclick="agregarHabito()">Agregar</button>
         <button class="btnH" onclick="desmarcarHabitos()">Desmarcar</button>
+        <button class="btnH" onclick="guardasHabitos()">Guardar</button>
         <p id="terminado">HÁBITOS TERMINADOS: </p>
-        <div class="habitos"></div>
+        <div class="habitos" id="fecha"></div>
 
         <div id="logro" class="logro">terminaste un habito</div>
     </div>
@@ -30,6 +32,17 @@
             localStorage.setItem("habitos", JSON.stringify(habitos));
         }
 
+        //FECHA ACTUAL
+        function obtenerFecha(){
+            const hoy = new Date();
+            const dia = String(hoy.getDate()).padStart(2, 0);
+            const mes = String(hoy.getMonth()).padStart(2, 0);
+            const año = hoy.getFullYear().toString();
+            return `${dia}/${mes}/${año}`;
+        }
+        const fechaActual = obtenerFecha();
+        document.getElementById('fecha').textContent = fechaActual;
+
         //MOSTRAR LOGRO AL COMPLETAR UN HABITO
         function mostrarLogro(texto){
             const logro = document.getElementById("logro");
@@ -38,7 +51,7 @@
             logro.classList.add("mostrar");
             setTimeout(() => {
                 logro.classList.remove("mostrar");
-            },3000);
+            },2000);
         }
 
         function renderHabitos(){
@@ -70,17 +83,16 @@
             const p = document.getElementById("terminado");
             const terminados = habitos.filter(h => h.completado).length;
             const total = habitos.length;
-
+            
             p.textContent = `HÁBITOS TERMINADOS: [${terminados} / ${total}]`;
             
             if(terminados === total){
-
-                mostrarLogro("Terminaste tus hábitos🎉🎈🥳👍");
                 confetti({// Lanzar confetti al completar todos los hábitos
                     particleCount: 3000,
                     spread: 110,
                     origin: {y: 1.1, x: 0.5}
                 });
+                mostrarLogro("Terminaste tus hábitos🎉🎈🥳");
             }
         }
 
@@ -108,7 +120,9 @@
                     origin: {y: 1.1}
                 });
             }
-            mostrarLogro('Sigue así');
+            if (habitos[index].completado){
+                mostrarLogro('Hábito terminado');
+            }
             guardarHabitos();
             renderHabitos();
             cuentaHabitos();
@@ -116,10 +130,15 @@
 
         //Desmarcar todos los habitos
         function desmarcarHabitos(){
-            habitos.forEach(habito =>{
-                habito.completado = false;
-            });
-            mostrarLogro("¡Todos los hábitos han sido desmarcados!");
+            //si no hay nada marcado no muestre el mensaje de habitos desmarcados?
+                if(!habitos.some(h => h.completado)){
+                    return;
+                }
+                habitos.forEach(habito =>{
+                    habito.completado = false;
+                });
+                mostrarLogro("Hábitos desmarcados");
+            
             
             guardarHabitos();
             renderHabitos();
@@ -128,6 +147,10 @@
 
         //Eliminar Habito
         function eliminarHabito(index){
+            const confirmar = confirm("Deseas borrar este hábito?");
+            if(!confirmar)return;
+            mostrarLogro("Hábito eliminado");
+
             habitos.splice(index, 1);
             guardarHabitos();
             renderHabitos();
