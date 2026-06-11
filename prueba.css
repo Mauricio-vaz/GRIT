@@ -47,10 +47,11 @@ header p{
     transform: translateX(-50%);
     transition: top 0.4s ease, opacity 0.4s ease;
     font-family: 'monospace';
-    background-color: #47a883;
+    background-color: #5d8881;
     color: rgb(24, 22, 22);
+    box-shadow: #000000 1px 3px 5px -1px;
     padding: 10px 20px;
-    border-radius: 10px;
+    border-radius: 15px;
     opacity: 0;
 }
 
@@ -58,8 +59,21 @@ header p{
     animation: bajar 0.5s ease;
     top: 30px;
     opacity: 1;
-    /*hacer que la trancision sea sueve y que vaya de abajo hacia arriba y luego desaparezca*/
+    /*hace que la trancision sea sueve y que vaya de abajo hacia arriba y luego desaparezca*/
 }
+/* Esto sirve para que el mensaje baje con una animacion de rebote,
+pero no funciona del todo bien en mobiles
+@keyframes bajar{
+    0%{
+        top: -100px
+    }
+    70%{
+        top: 40px;
+    }
+    100%{
+        top: 30px;
+    }
+}*/
 
 .container .btnH{
     font-family: 'Courier New', Courier, monospace;
