@@ -8,24 +8,28 @@ body{
 }
 
 header{
-    width: 98%;
-    margin: 20px auto;
-    border: 2px solid rgb(124, 115, 115);
+    width: 100%;
+    margin-top: auto;
+    border: 2px solid rgb(113, 155, 130);
     font-size: 1.5rem;
     text-align: center;
-    border-radius: 5px;
+    border-radius: 10px;
     background-color: #428866;
     color: #131b25;
 }
+header h2{
+    font-size: 2.3rem;
+}
 header p{
-    font-size: 1.2rem ;
+    font-size: 1.2rem;
+    
 }
 
 .container{
-    width: 98%;
-    margin: 20px auto;
+    width: 100%;
+    margin-top: 10px;
     padding: 10px;
-    border: 2px solid rgb(124, 115, 115);
+    border: 2px solid rgb(113, 155, 130);
     border-radius: 10px;
     background-color: #428866;
 }
@@ -34,7 +38,7 @@ header p{
     margin: 10px;
     padding: 5px;
     border-radius: 5px;
-    background: rgb(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.151);
     border: transparent;
 }
 /*EN ESTE APARTADO VA UN INTENTO DE MENSAJE TOAST*/
@@ -47,7 +51,7 @@ header p{
     transform: translateX(-50%);
     transition: top 0.4s ease, opacity 0.4s ease;
     font-family: 'monospace';
-    background-color: #5d8881;
+    background-color: #60b390;
     color: rgb(24, 22, 22);
     box-shadow: #000000 1px 3px 5px -1px;
     padding: 10px 20px;
@@ -147,7 +151,7 @@ input[type="checkbox"]:checked::before {
     padding: 2px;
     justify-content: center;
     text-align: center;
-    box-shadow: #1d462c 1px 3px 5px -1px;
+    box-shadow: #000000 1px 3px 5px -1px;
 }
 
 .habitos{
