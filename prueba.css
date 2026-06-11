@@ -60,17 +60,6 @@ header p{
     opacity: 1;
     /*hacer que la trancision sea sueve y que vaya de abajo hacia arriba y luego desaparezca*/
 }
-@keyframes bajar{
-    0%{
-        top: -100px
-    }
-    70%{
-        top: 40px;
-    }
-    100%{
-        top: 30px;
-    }
-}
 
 .container .btnH{
     font-family: 'Courier New', Courier, monospace;
