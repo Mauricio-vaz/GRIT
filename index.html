@@ -9,9 +9,8 @@
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 <body>
     <header>
-        <h1>GRIT</h1>
+        <h2>GRIT</h2>
         <p>Control De Actividades Diarias.</p>
-        <p id="fecha"></p>
     </header>
     <div class="container">
         <label for="inputHabito">Nuevo Habito:</label>
@@ -19,10 +18,11 @@
         <button class="btnH" onclick="agregarHabito()">Agregar</button>
         <button class="btnH" onclick="desmarcarHabitos()">Desmarcar</button>
         <button class="btnH" onclick="guardasHabitos()">Guardar</button>
+        <p id="fecha"></p>
         <p id="terminado">HÁBITOS TERMINADOS: </p>
-        <div class="habitos" id="fecha"></div>
+        <div class="habitos"></div>
 
-        <div id="logro" class="logro">terminaste un habito</div>
+        <div id="logro" class="logro"></div>
     </div>
 
     <script>
