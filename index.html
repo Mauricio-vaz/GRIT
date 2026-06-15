@@ -115,9 +115,13 @@
             habitos[index].completado = !habitos[index].completado;
             if(habitos[index].completado){
                 confetti({
-                    particleCount: 500,
+                    particleCount: 800,
                     spread: 80,
-                    origin: {y: 1.1}
+                    origin: {y: 1.1},
+                    drift: -2,
+                    scalar: 0.8,
+                    ticks: 300,
+                    colors:['#14a782', '#bec73e','#c73eb5']//Poner una variedad surtid a de colores, que se vea mejor
                 });
             }
             if (habitos[index].completado){
