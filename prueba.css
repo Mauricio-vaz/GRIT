@@ -98,6 +98,23 @@ pero no funciona del todo bien en mobiles
 #fecha{
     margin: -5px 0;
 }
+
+/*Esta parte es de la barra de progreso*/
+.barra-progreso-contenedor{
+    width: 100%;
+    background: #c9c9d1b4;
+    border-radius: 8px;
+    box-shadow: #000000 1px 3px 5px -1px;
+    height: 15px;
+    overflow: hidden;
+}
+.barra-progreso{
+    height: 100%;
+    width: 0;
+    background: #16573c;
+    border-radius: 8px;
+    transition: width 0.3s ease;
+}
 .botones{
     display: flex;
     align-items: center;
@@ -167,4 +184,3 @@ input[type="checkbox"]:checked::before {
     opacity: 0.5;
     color: #20262c;
 }
-
