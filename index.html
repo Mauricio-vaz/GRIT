@@ -17,11 +17,13 @@
         <input type="text" id="inputHabito" >
         <button class="btnH" onclick="agregarHabito()">Agregar</button>
         <button class="btnH" onclick="desmarcarHabitos()">Desmarcar</button>
-        <button class="btnH" onclick="guardasHabitos()">Guardar</button>
+        <button class="btnH" onclick="guardarHabitos()">Guardar</button>
         <p id="fecha"></p>
         <p id="terminado">HÁBITOS TERMINADOS: </p>
+        <div class="barra-progreso-contenedor">
+            <div class="barra-progreso" id="bar"></div>
+        </div>
         <div class="habitos"></div>
-
         <div id="logro" class="logro"></div>
     </div>
 
@@ -43,7 +45,7 @@
         const fechaActual = obtenerFecha();
         document.getElementById('fecha').textContent = fechaActual;
 
-        //MOSTRAR LOGRO AL COMPLETAR UN HABITO
+        //MOSTRAR LOGRO AL COMPLETAR UN HABITO (toast)
         function mostrarLogro(texto){
             const logro = document.getElementById("logro");
 
@@ -51,7 +53,7 @@
             logro.classList.add("mostrar");
             setTimeout(() => {
                 logro.classList.remove("mostrar");
-            },2000);
+            },2500);
         }
 
         function renderHabitos(){
@@ -78,7 +80,7 @@
                 contenedor.appendChild(p);
             });
         }
-
+        //CUENTA LOS HÁBITOS Y LOS VA ACTUALIZANDO CONFORME VAN TERMINANDO
         function cuentaHabitos(){
             const p = document.getElementById("terminado");
             const terminados = habitos.filter(h => h.completado).length;
@@ -86,15 +88,19 @@
             
             p.textContent = `HÁBITOS TERMINADOS: [${terminados} / ${total}]`;
             
-            if(terminados === total){
-                confetti({// Lanzar confetti al completar todos los hábitos
-                    particleCount: 3000,
-                    spread: 110,
-                    origin: {y: 1.1, x: 0.5}
-                });
-                mostrarLogro("Terminaste tus hábitos🎉🎈🥳");
-            }
+            let porcentaje = total > 0 ?( terminados / total)* 100 : 0 ;
+            document.getElementById("bar").style.width = porcentaje + "%";
+
+            if (terminados === total){
+            confetti({// Lanzar confetti al completar todos los hábitos
+                particleCount: 3000,
+                spread: 110,
+                origin: {y: 1.1, x: 0.5}
+            });
+            mostrarLogro("Terminaste tus hábitos🎉🎈🥳");
         }
+    }
+
 
         //Agregar un habito
         function agregarHabito(){
@@ -110,7 +116,6 @@
         }
 
         //marcar o desmarcar un habito
-
         function toggleHabito(index){
             habitos[index].completado = !habitos[index].completado;
             if(habitos[index].completado){
@@ -121,8 +126,9 @@
                     drift: -2,
                     scalar: 0.8,
                     ticks: 300,
-                    //colors:['#14a782', '#bec73e','#c73eb5'] aun no se define un color que le guste a hombre
+                    //colors:['#1a8832', '#d7e613','#2d7ee7'] aun no encuentra una buena convinacion hombre
                     //Poner una variedad surtid a de colores, que se vea mejor
+                    shapes: ['circle', 'square']
                 });
             }
             if (habitos[index].completado){
@@ -143,8 +149,6 @@
                     habito.completado = false;
                 });
                 mostrarLogro("Hábitos desmarcados");
-            
-            
             guardarHabitos();
             renderHabitos();
             cuentaHabitos();
