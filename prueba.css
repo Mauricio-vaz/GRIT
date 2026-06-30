@@ -1,186 +1,182 @@
-*{
-    box-sizing: border-box;
-}
-body{
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 15px;
-    background-color: #8caf97;
-}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="prueba.css">
+    <title>GRIT</title>
+</head>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+<body>
+    <header>
+        <h2>GRIT</h2>
+        <p>Control De Actividades Diarias.</p>
+    </header>
+    <div class="container">
+        <label for="inputHabito">Nuevo Habito:</label>
+        <input type="text" id="inputHabito" >
+        <button class="btnH" onclick="agregarHabito()">Agregar</button>
+        <button class="btnH" onclick="desmarcarHabitos()">Desmarcar</button>
+        <button class="btnH" onclick="guardarHabitos()">Guardar</button>
+        <p id="fecha"></p>
+        <p id="terminado">HÁBITOS TERMINADOS: </p>
+        <div class="barra-progreso-contenedor">
+            <div class="barra-progreso" id="bar"></div>
+        </div>
+        <div class="habitos"></div>
+        <div id="logro" class="logro"></div>
+    </div>
 
-header{
-    width: 100%;
-    border: 2px solid rgb(113, 155, 130);
-    text-align: center;
-    border-radius: 10px;
-    background-color: #428866;
-    color: #131b25;
-}
-header h2{
-    font-size: 2rem;
-    margin: 10px 0 0 0;
-}
-header p{
-    font-size: 1.2rem;
-    margin: 10px 0 0 0;
-}
+    <script>
+        let habitos =JSON.parse(localStorage.getItem("habitos")) || [];
 
-.container{
-    width: 100%;
-    margin-top: 10px;
-    padding: 10px;
-    border: 2px solid rgb(113, 155, 130);
-    border-radius: 10px;
-    background-color: #428866;
-}
+        function guardarHabitos(){
+            localStorage.setItem("habitos", JSON.stringify(habitos));
+        }
 
-.container input{
-    margin: 10px;
-    padding: 5px;
-    border-radius: 5px;
-    background: rgba(255, 255, 255, 0.151);
-    border: transparent;
-}
-/*EN ESTE APARTADO VA UN INTENTO DE MENSAJE TOAST*/
-.logro{
-    width: 250px;
-    position: fixed;
-    top: -100px;
-    left: 50%;
-    text-align: center;
-    transform: translateX(-50%);
-    transition: top 0.3s ease, opacity 0.2s ease;
-    font-family: 'monospace';
-    background-color: #60b390;
-    color: rgb(24, 22, 22);
-    box-shadow: #000000 1px 3px 5px -1px;
-    padding: 10px 20px;
-    border-radius: 15px;
-    opacity: 0;
-}
+        //FECHA ACTUAL
+        function obtenerFecha(){
+            const hoy = new Date();
+            const dia = String(hoy.getDate()).padStart(2, 0);
+            const mes = String(hoy.getMonth()).padStart(2, 0);
+            const año = hoy.getFullYear().toString();
+            return `${dia}/${mes}/${año}`;
+        }
+        const fechaActual = obtenerFecha();
+        document.getElementById('fecha').textContent = fechaActual;
 
-.logro.mostrar{
-    animation: bajar 0.5s ease;
-    top: 30px;
-    opacity: 1;
-    /*hace que la trancision sea sueve y que vaya de abajo hacia arriba y luego desaparezca*/
-}
-/* Esto sirve para que el mensaje baje con una animacion de rebote,
-pero no funciona del todo bien en mobiles
-@keyframes bajar{
-    0%{
-        top: -100px
+        //MOSTRAR LOGRO AL COMPLETAR UN HABITO (toast)
+        function mostrarLogro(texto){
+            const logro = document.getElementById("logro");
+
+            logro.textContent = texto;
+            logro.classList.add("mostrar");
+            setTimeout(() => {
+                logro.classList.remove("mostrar");
+            },2500);
+        }
+
+        function renderHabitos(){
+            const contenedor = document.querySelector(".habitos");
+            contenedor.innerHTML = "";
+
+            habitos.forEach((habito, index)=>{
+                const p = document.createElement("p");
+
+                p.innerHTML = `
+                <input type= "checkbox" id="check${index}" ${habito.completado ? "checked" : "" }
+                    onchange="toggleHabito(${index})">
+
+                <spam class="${habito.completado ? "completado" : ""}">
+                ${habito.texto}
+                </spam>  
+
+                <div class="botones">
+                <button class="btnE" onclick="editarHabito(${index})">✏</button>
+                <button class="btnE" onclick="eliminarHabito(${index})">🗑</button>
+                </div>
+                <br>
+                `;
+                contenedor.appendChild(p);
+            });
+        }
+        //CUENTA LOS HÁBITOS Y LOS VA ACTUALIZANDO CONFORME VAN TERMINANDO
+        function cuentaHabitos(){
+            const p = document.getElementById("terminado");
+            const terminados = habitos.filter(h => h.completado).length;
+            const total = habitos.length;
+            
+            p.textContent = `HÁBITOS TERMINADOS: [${terminados} / ${total}]`;
+            
+            let porcentaje = total > 0 ?( terminados / total)* 100 : 0 ;
+            document.getElementById("bar").style.width = porcentaje + "%";
+
+            if (terminados === total){
+            confetti({// Lanzar confetti al completar todos los hábitos
+                particleCount: 3000,
+                spread: 110,
+                origin: {y: 1.1, x: 0.5}
+            });
+            mostrarLogro("Terminaste tus hábitos🎉🎈🥳");
+        }
     }
-    70%{
-        top: 40px;
-    }
-    100%{
-        top: 30px;
-    }
-}*/
 
-.container .btnH{
-    font-family: 'Courier New', Courier, monospace;
-    margin: 6px;
-    padding: 6px;
-    width: 90px;
-    font-size: 0.86rem;
-    margin-bottom: 30px;
-    border-radius: 8px;
-    border: transparent;
-    color: #131b25;
-    background: rgb(127, 170, 110);
-}
 
-.btnH:active{
-    transform: scale(1.2);
-    transition: 0.1s;
-}
-#fecha{
-    margin: -5px 0;
-}
+        //Agregar un habito
+        function agregarHabito(){
+            const input = document.querySelector("input[type= 'text']");
+            if(!input.value.trim()) return;
 
-/*Esta parte es de la barra de progreso*/
-.barra-progreso-contenedor{
-    width: 100%;
-    background: #c9c9d1b4;
-    border-radius: 8px;
-    box-shadow: #000000 1px 3px 5px -1px;
-    height: 15px;
-    overflow: hidden;
-}
-.barra-progreso{
-    height: 100%;
-    width: 0;
-    background: #16573c;
-    border-radius: 8px;
-    transition: width 0.3s ease;
-}
-.botones{
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    float: right;
-}
+            habitos.push({texto: input.value, completado: false});
+            
+            input.value = "";
+            guardarHabitos();
+            renderHabitos();
+            cuentaHabitos();
+        }
 
-.botones .btnE:active{
-    transform: scale(1.2);
-    transition:0.1s;
-}
+        //marcar o desmarcar un habito
+        function toggleHabito(index){
+            habitos[index].completado = !habitos[index].completado;
+            if(habitos[index].completado){
+                confetti({
+                    particleCount: 800,
+                    spread: 80,
+                    origin: {y: 1.1},
+                    drift: -2,
+                    scalar: 0.8,
+                    ticks: 300,
+                    //colors:['#1a8832', '#d7e613','#2d7ee7'] aun no encuentra una buena convinacion hombre
+                    //Poner una variedad surtid a de colores, que se vea mejor
+                    shapes: ['circle', 'square']
+                });
+            }
+            if (habitos[index].completado){
+                mostrarLogro('Hábito terminado');
+            }
+            guardarHabitos();
+            renderHabitos();
+            cuentaHabitos();
+        }
 
-input[type="checkbox"]{
-    vertical-align: middle;
-    appearance: none;
-    width: 35px;
-    height: 22px;
-    background: #ccc;
-    border-radius: 20px;
-    position: relative;
-    cursor: pointer;
-    transition: 0.3s;
-}
+        //Desmarcar todos los habitos
+        function desmarcarHabitos(){
+            //si no hay nada marcado no muestre el mensaje de habitos desmarcados?
+                if(!habitos.some(h => h.completado)){
+                    return;
+                }
+                habitos.forEach(habito =>{
+                    habito.completado = false;
+                });
+                mostrarLogro("Hábitos desmarcados");
+            guardarHabitos();
+            renderHabitos();
+            cuentaHabitos();
+        }
 
-input[type="checkbox"]::before {
-    content: "";
-    position: absolute;
-    width: 18px;
-    height: 18px;
-    background: white;
-    border-radius: 50%;
-    top: 2px;
-    left: 2px;
-    transition: 0.3s;
-}
+        //Eliminar Habito
+        function eliminarHabito(index){
+            const confirmar = confirm("Deseas borrar este hábito?");
+            if(!confirmar)return;
+            mostrarLogro("Hábito eliminado");
 
-input[type="checkbox"]:checked {
-    background: #3bb355;
-}
+            habitos.splice(index, 1);
+            guardarHabitos();
+            renderHabitos();
+        }
 
-input[type="checkbox"]:checked::before {
-    transform: translateX(13px);
-}
+        //editar habito
+        function editarHabito(index){
+            const nuevo = prompt("Editar Habito:", habitos[index].texto);
+            if(nuevo){
+                habitos[index].texto = nuevo;
+                guardarHabitos();
+                renderHabitos();
+            }
+        }
+        renderHabitos();
 
-.btnE{
-    height: auto;
-    border-radius: 8px;
-    border: none;
-    background: #61a886;
-}
-.botones .btnE{
-    height: 20px;
-    width: 30px;
-    padding: 2px;
-    justify-content: center;
-    text-align: center;
-    box-shadow: #000000 1px 3px 5px -1px;
-}
-
-.habitos{
-    margin-top: 20px;
-}
-
-.completado{
-    margin-left: 10px;
-    text-decoration: line-through;
-    opacity: 0.5;
-    color: #20262c;
-}
+    </script>
+    
+</body>
+</html>
