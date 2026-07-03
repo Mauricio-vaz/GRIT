@@ -111,7 +111,7 @@ pero no funciona del todo bien en mobiles
 .barra-progreso{
     height: 100%;
     width: 0;
-    background: #16573c;
+    background: linear-gradient(145deg, #74b993, #4da173, #299b5c, #0b8040);
     border-radius: 8px;
     transition: width 0.3s ease;
 }
