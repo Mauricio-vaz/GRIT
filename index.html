@@ -33,6 +33,8 @@
         function guardarHabitos(){
             localStorage.setItem("habitos", JSON.stringify(habitos));
         }
+        document.addEventListener("DOMContentLoaded", cuentaHabitos);
+
 
         //FECHA ACTUAL
         function obtenerFecha(){
