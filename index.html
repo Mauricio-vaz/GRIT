@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="prueba.css">
+    <link rel="icon" href="lista.png">
     <title>GRIT</title>
 </head>
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
@@ -17,24 +18,27 @@
         <input type="text" id="inputHabito" >
         <button class="btnH" onclick="agregarHabito()">Agregar</button>
         <button class="btnH" onclick="desmarcarHabitos()">Desmarcar</button>
-        <button class="btnH" onclick="guardarHabitos()">Guardar</button>
+        <button class="btnH" onclick="guardarDiario()">Guardar</button>
         <p id="fecha"></p>
         <p id="terminado">HÁBITOS TERMINADOS: </p>
+
         <div class="barra-progreso-contenedor">
             <div class="barra-progreso" id="bar"></div>
         </div>
         <div class="habitos"></div>
         <div id="logro" class="logro"></div>
+        <div id="resulDiario"></div>
     </div>
 
     <script>
+        //GUARDAR HÁBITOS EN LOCALSTORAGE
         let habitos =JSON.parse(localStorage.getItem("habitos")) || [];
-
         function guardarHabitos(){
             localStorage.setItem("habitos", JSON.stringify(habitos));
         }
+        
+        //HACER QUE CUENTE LOS HÁBITOS AL CARGAR LA PÁGINA
         document.addEventListener("DOMContentLoaded", cuentaHabitos);
-
 
         //FECHA ACTUAL
         function obtenerFecha(){
@@ -82,6 +86,15 @@
                 contenedor.appendChild(p);
             });
         }
+
+        //EN ESTA PARTE VA LA FUNCION PARA GUARDAR EL DIARIO, QUE ES LA QUE SE ENCARGA DE GUARDAR 
+        //LOS HÁBITOS EN LOCALSTORAGE PARA VER CUANTOS HABITOS SE HIZO EN EL DIA Y CUALES NO
+        function guardarDiario(){
+            const p = document.getElementById("resulDiario");
+            p.textContent = `HÁBITOS DEL DÍA ${fechaActual}: [${habitos.filter(h => h.completado).length}/${habitos.length}]`;
+            mostrarLogro("Diario guardado");
+        }
+
         //CUENTA LOS HÁBITOS Y LOS VA ACTUALIZANDO CONFORME VAN TERMINANDO
         function cuentaHabitos(){
             const p = document.getElementById("terminado");
@@ -94,17 +107,17 @@
             document.getElementById("bar").style.width = porcentaje + "%";
 
             if (terminados === total){
-            confetti({// Lanzar confetti al completar todos los hábitos
-                particleCount: 3000,
-                spread: 110,
-                origin: {y: 1.1, x: 0.5}
-            });
-            mostrarLogro("Terminaste tus hábitos🎉🎈🥳");
+                confetti({// Lanzar confetti al completar todos los hábitos
+                    particleCount: 3000,
+                    spread: 110,
+                    origin: {y: 1.1, x: 0.5}
+                });
+                mostrarLogro("Terminaste tus hábitos🎉🎈🥳");
         }
     }
 
 
-        //Agregar un habito
+        //AGREGAR UN HÁBITO
         function agregarHabito(){
             const input = document.querySelector("input[type= 'text']");
             if(!input.value.trim()) return;
@@ -117,7 +130,7 @@
             cuentaHabitos();
         }
 
-        //marcar o desmarcar un habito
+        //MARCAR O DESMARCAR UN HÁBITO
         function toggleHabito(index){
             habitos[index].completado = !habitos[index].completado;
             if(habitos[index].completado){
@@ -141,7 +154,7 @@
             cuentaHabitos();
         }
 
-        //Desmarcar todos los habitos
+        //DESMARCAR TODOS LOS HÁBITOS
         function desmarcarHabitos(){
             //si no hay nada marcado no muestre el mensaje de habitos desmarcados?
                 if(!habitos.some(h => h.completado)){
@@ -156,7 +169,7 @@
             cuentaHabitos();
         }
 
-        //Eliminar Habito
+        //ELIMINAR HÁBITO
         function eliminarHabito(index){
             const confirmar = confirm("Deseas borrar este hábito?");
             if(!confirmar)return;
@@ -167,7 +180,7 @@
             renderHabitos();
         }
 
-        //editar habito
+        //EDITAR UN HÁBITO
         function editarHabito(index){
             const nuevo = prompt("Editar Habito:", habitos[index].texto);
             if(nuevo){
