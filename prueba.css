@@ -38,8 +38,16 @@ header p{
     padding: 5px;
     border-radius: 5px;
     background: rgba(255, 255, 255, 0.151);
+    box-shadow: inset 2px 5px 10px rgba(0, 0, 0, 0.4);
+    transition: all 300ms ease-in-out;
     border: transparent;
 }
+.container input:focus{
+    transform: scale(1.03);
+    box-shadow: 13px 13px 100px #a6bcc9,
+                -13px -13px 100px #274d53;
+}
+
 /*EN ESTE APARTADO VA UN INTENTO DE MENSAJE TOAST*/
 .logro{
     width: 250px;
@@ -105,13 +113,13 @@ pero no funciona del todo bien en mobiles
     background: #c9c9d1b4;
     border-radius: 8px;
     box-shadow: #000000 1px 3px 5px -1px;
-    height: 11px;
+    height: 10px;
     overflow: hidden;
 }
 .barra-progreso{
     height: 100%;
     width: 0;
-    background: linear-gradient(145deg, #74b993, #4da173, #299b5c, #0b8040);
+    background: linear-gradient(145deg, #6ddbd7, #3ab8b0, #239f98, #008781);
     border-radius: 8px;
     transition: width 0.3s ease;
 }
